@@ -251,7 +251,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${isDarkTheme ? 'bg-[#020610] text-slate-100' : 'light-theme bg-slate-100 text-slate-900'}`}>
+    <div className={`min-h-screen flex flex-col ${isDarkTheme ? 'bg-black text-white' : 'light-theme bg-white text-black'}`}>
       {/* 1. Header with branding, station selector, domain tabs, audio & clocks */}
       <Header
         currentStation={currentStation}
@@ -332,11 +332,11 @@ export default function Home() {
             </div>
 
             {/* Modules Quick-Inspection Matrix with Sharp Boxes */}
-            <div className="glass-panel p-5 border border-cyan-500/25">
-              <h3 className="text-sm font-bold text-white dark:text-white light:text-slate-900 mb-1">
+            <div className="glass-panel p-5 border border-neutral-800">
+              <h3 className="text-sm font-bold text-white dark:text-white light:text-black mb-1 font-mono">
                 Station Modules Roster & Live Telemetry Sensors
               </h3>
-              <p className="text-xs text-slate-300 dark:text-slate-300 light:text-slate-600 mb-4">
+              <p className="text-xs text-neutral-400 dark:text-neutral-400 light:text-neutral-600 mb-4 font-mono">
                 Click any module card or map node to trigger remote actuator overrides.
               </p>
               
@@ -348,23 +348,27 @@ export default function Home() {
                       playTacticalBlip(850, 40);
                       setSelectedModule(mod);
                     }}
-                    className={`p-3.5 border cursor-pointer transition-all hover:scale-102 ${
+                    className={`p-3.5 border cursor-pointer transition-all ${
                       mod.status === 'critical'
-                        ? 'bg-red-950/80 border-red-500 text-red-200'
+                        ? 'bg-white text-black font-black border-2 border-white'
                         : mod.status === 'warning'
-                        ? 'bg-amber-950/80 border-amber-500 text-amber-200'
-                        : 'bg-slate-950/70 dark:bg-slate-950/70 light:bg-slate-50 border-slate-800 light:border-slate-300 hover:border-cyan-400 text-slate-200 dark:text-slate-200 light:text-slate-800'
+                        ? 'bg-neutral-900 border border-neutral-400 text-white'
+                        : 'bg-neutral-950 dark:bg-neutral-950 light:bg-neutral-50 border border-neutral-800 light:border-neutral-300 hover:border-white text-neutral-200 dark:text-neutral-200 light:text-neutral-800'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-cyan-400 dark:text-cyan-400 light:text-cyan-700 font-black uppercase">{mod.id}</span>
-                      <span className="text-[9px] font-mono px-1.5 py-0.2 font-black uppercase bg-slate-900 dark:bg-slate-900 light:bg-slate-200 border border-slate-800 light:border-slate-300">
+                      <span className="font-mono text-[10px] uppercase font-bold text-neutral-400">{mod.id}</span>
+                      <span className={`text-[9px] font-mono px-1.5 py-0.2 font-black uppercase border ${
+                        mod.status === 'critical'
+                          ? 'bg-black text-white border-black'
+                          : 'bg-neutral-900 text-neutral-300 border-neutral-700'
+                      }`}>
                         {mod.status}
                       </span>
                     </div>
-                    <div className="font-bold text-white dark:text-white light:text-slate-900 text-xs mb-1.5">{mod.name}</div>
-                    <div className="text-[11px] font-mono flex items-center justify-between text-slate-300 dark:text-slate-300 light:text-slate-600">
-                      <span>Health: <strong className="text-emerald-400 dark:text-emerald-300 light:text-emerald-700">{mod.health}%</strong></span>
+                    <div className="font-bold text-xs mb-1.5">{mod.name}</div>
+                    <div className="text-[11px] font-mono flex items-center justify-between opacity-80">
+                      <span>Health: <strong className="font-bold">{mod.health}%</strong></span>
                       <span>{mod.temperature}°C</span>
                     </div>
                   </div>
@@ -418,7 +422,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-900 light:border-slate-300 bg-slate-950/90 light:bg-white py-4 px-4 sm:px-6 text-center text-xs text-slate-400 font-mono">
+      <footer className="mt-auto border-t border-neutral-800 light:border-neutral-300 bg-black dark:bg-black light:bg-white py-4 px-4 sm:px-6 text-center text-xs text-neutral-400 font-mono">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
             PRITHVI-TWIN • Ministry of Earth Sciences (MoES) & NCPOR • Government of India
@@ -426,7 +430,7 @@ export default function Home() {
           <div className="flex items-center gap-3 text-[11px]">
             <span>SIH Problem Statement PS 26060</span>
             <span>•</span>
-            <span className="text-cyan-400 font-bold">Vercel Serverless Ready</span>
+            <span className="text-white dark:text-white light:text-black font-bold">Vercel Serverless Ready</span>
           </div>
         </div>
       </footer>

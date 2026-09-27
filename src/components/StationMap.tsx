@@ -34,36 +34,36 @@ export const StationMap: React.FC<StationMapProps> = ({
     switch (status) {
       case 'critical':
         return {
-          stroke: '#ef4444',
-          fill: 'rgba(239, 68, 68, 0.25)',
-          badge: 'bg-red-950 text-red-200 border-red-500 font-black',
-          dot: 'bg-red-500',
+          stroke: '#ffffff',
+          fill: 'rgba(255, 255, 255, 0.25)',
+          badge: 'bg-white text-black font-black border-2 border-white',
+          dot: 'bg-white',
           pulse: 'pulse-critical'
         };
       case 'warning':
         return {
-          stroke: '#f59e0b',
-          fill: 'rgba(245, 158, 11, 0.25)',
-          badge: 'bg-amber-950 text-amber-200 border-amber-500 font-bold',
-          dot: 'bg-amber-500',
+          stroke: '#a3a3a3',
+          fill: 'rgba(255, 255, 255, 0.08)',
+          badge: 'bg-neutral-900 text-neutral-200 border border-neutral-400 font-bold',
+          dot: 'bg-neutral-400',
           pulse: 'pulse-warning'
         };
       case 'offline':
         return {
-          stroke: '#64748b',
-          fill: 'rgba(100, 116, 139, 0.2)',
-          badge: 'bg-slate-900 text-slate-400 border-slate-700',
-          dot: 'bg-slate-500',
+          stroke: '#404040',
+          fill: 'rgba(0, 0, 0, 0.5)',
+          badge: 'bg-neutral-950 text-neutral-500 border border-neutral-800',
+          dot: 'bg-neutral-600',
           pulse: ''
         };
       case 'nominal':
       default:
         return {
-          stroke: '#10b981',
-          fill: 'rgba(16, 185, 129, 0.15)',
-          badge: 'bg-emerald-950 text-emerald-300 border-emerald-600 font-bold',
-          dot: 'bg-emerald-500',
-          pulse: 'pulse-nominal'
+          stroke: '#737373',
+          fill: 'rgba(255, 255, 255, 0.04)',
+          badge: 'bg-black text-neutral-300 border border-neutral-700 font-bold',
+          dot: 'bg-neutral-400',
+          pulse: ''
         };
     }
   };
@@ -71,18 +71,18 @@ export const StationMap: React.FC<StationMapProps> = ({
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'power':
-        return <Zap className="w-3.5 h-3.5" />;
+        return <Zap className="w-3.5 h-3.5 text-white" />;
       case 'life_support':
-        return <HeartPulse className="w-3.5 h-3.5" />;
+        return <HeartPulse className="w-3.5 h-3.5 text-white" />;
       case 'science':
-        return <FlaskConical className="w-3.5 h-3.5" />;
+        return <FlaskConical className="w-3.5 h-3.5 text-white" />;
       case 'comms':
-        return <Radio className="w-3.5 h-3.5" />;
+        return <Radio className="w-3.5 h-3.5 text-white" />;
       case 'fuel':
-        return <Fuel className="w-3.5 h-3.5" />;
+        return <Fuel className="w-3.5 h-3.5 text-white" />;
       case 'logistics':
       default:
-        return <Truck className="w-3.5 h-3.5" />;
+        return <Truck className="w-3.5 h-3.5 text-white" />;
     }
   };
 
@@ -95,24 +95,24 @@ export const StationMap: React.FC<StationMapProps> = ({
       {/* Schematic Header & Filter Controls */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3 z-10">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-cyan-950 border border-cyan-800 text-cyan-400">
+          <div className="p-1.5 bg-neutral-900 border border-neutral-700 text-white">
             <Layers className="w-4 h-4" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white dark:text-white light:text-slate-900 flex items-center gap-2">
+            <h2 className="text-sm font-bold text-white dark:text-white light:text-black flex items-center gap-2 font-mono">
               <span>Station Architectural Digital Twin</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 bg-slate-800 text-cyan-300 uppercase">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 bg-neutral-800 text-neutral-300 uppercase">
                 Top-Down Node Graph
               </span>
             </h2>
-            <p className="text-[11px] text-slate-300 dark:text-slate-300 light:text-slate-600">
+            <p className="text-[11px] text-neutral-400 font-mono">
               Interactive 2D schematic • Hover node to isolate • Click for internal diagnostics
             </p>
           </div>
         </div>
 
         {/* Filter categories with sharp boxes */}
-        <div className="flex items-center gap-1 bg-slate-900/90 dark:bg-slate-900/90 light:bg-slate-100 p-0.5 border border-slate-800 light:border-slate-300 text-xs font-mono">
+        <div className="flex items-center gap-1 bg-neutral-950 dark:bg-neutral-950 light:bg-neutral-100 p-0.5 border border-neutral-800 light:border-neutral-300 text-xs font-mono">
           {[
             { id: 'all', label: 'All Modules' },
             { id: 'power', label: 'Power' },
@@ -127,10 +127,10 @@ export const StationMap: React.FC<StationMapProps> = ({
                 playTacticalBlip(750, 40);
                 setFilterCategory(cat.id);
               }}
-              className={`px-2 py-1 text-[11px] font-semibold transition-all ${
+              className={`px-2 py-1 text-[11px] font-bold transition-all ${
                 filterCategory === cat.id
-                  ? 'bg-cyan-600 text-white font-bold'
-                  : 'text-slate-400 dark:text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900'
+                  ? 'bg-white text-black dark:bg-white dark:text-black light:bg-black light:text-white'
+                  : 'text-neutral-400 hover:text-white light:hover:text-black'
               }`}
             >
               {cat.label}
@@ -140,29 +140,29 @@ export const StationMap: React.FC<StationMapProps> = ({
       </div>
 
       {/* Main 2D Schematic Canvas Container (Sharp Box) */}
-      <div className="relative flex-1 min-h-[400px] w-full bg-slate-950/95 dark:bg-slate-950/95 light:bg-slate-900 border border-cyan-900/40 overflow-hidden polar-grid-bg">
+      <div className="relative flex-1 min-h-[400px] w-full bg-black border border-neutral-800 overflow-hidden polar-grid-bg">
         {/* Radar Scanner Sweep Effect */}
         <div className="radar-scanner opacity-30"></div>
 
         {/* Antarctic Compass & Katabatic Wind Vector Arrow */}
-        <div className="absolute top-3 left-3 z-10 flex items-center gap-2 bg-slate-900/90 backdrop-blur-md px-2.5 py-1.5 border border-cyan-800/40 text-[10px] font-mono text-cyan-300 shadow">
-          <Wind className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-2 bg-neutral-950/95 backdrop-blur-md px-2.5 py-1.5 border border-neutral-800 text-[10px] font-mono text-neutral-200 shadow">
+          <Wind className="w-3.5 h-3.5 text-white" />
           <span>KATABATIC VECTOR: {telemetry.environment.windDirection} ({telemetry.environment.windSpeed} km/h)</span>
         </div>
 
-        {/* Legend */}
-        <div className="absolute top-3 right-3 z-10 flex items-center gap-2.5 bg-slate-900/90 backdrop-blur-md px-2.5 py-1.5 border border-slate-800 text-[10px] font-mono text-slate-200 shadow">
+        {/* Legend (Monochrome) */}
+        <div className="absolute top-3 right-3 z-10 flex items-center gap-2.5 bg-neutral-950/95 backdrop-blur-md px-2.5 py-1.5 border border-neutral-800 text-[10px] font-mono text-neutral-300 shadow">
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 bg-emerald-500"></span>
-            <span className="text-slate-300">Nominal</span>
+            <span className="w-2.5 h-2.5 bg-neutral-500"></span>
+            <span className="text-neutral-400">Nominal</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 bg-amber-400"></span>
-            <span className="text-amber-300 font-bold">Warning</span>
+            <span className="w-2.5 h-2.5 border border-neutral-400 bg-neutral-800"></span>
+            <span className="text-neutral-200 font-bold">Warning</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 bg-red-500 animate-ping"></span>
-            <span className="text-red-400 font-black">Critical</span>
+            <span className="w-2.5 h-2.5 bg-white"></span>
+            <span className="text-white font-black">Critical</span>
           </div>
         </div>
 
@@ -174,13 +174,8 @@ export const StationMap: React.FC<StationMapProps> = ({
         >
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(56, 189, 248, 0.05)" strokeWidth="1" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.05)" strokeWidth="1" />
             </pattern>
-
-            <filter id="nodeGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
           </defs>
 
           <rect width="1000" height="600" fill="url(#grid)" />
@@ -189,19 +184,18 @@ export const StationMap: React.FC<StationMapProps> = ({
           <path 
             d="M 50,550 Q 200,480 350,520 T 700,500 T 950,560" 
             fill="none" 
-            stroke="rgba(147, 197, 253, 0.12)" 
+            stroke="rgba(255, 255, 255, 0.1)" 
             strokeWidth="1.5" 
             strokeDasharray="4 4" 
           />
 
-          {/* REDUCED LINE NOISE: Lower opacity (20-25%) & thinner stroke width */}
           {/* Main corridor: Power -> Habitation -> Water -> Radar */}
           <path
             d="M 240,252 L 480,132 L 520,276 L 740,228 L 760,408"
             fill="none"
-            stroke="#0ea5e9"
-            strokeWidth="2.5"
-            strokeOpacity="0.25"
+            stroke="#ffffff"
+            strokeWidth="2"
+            strokeOpacity="0.2"
             strokeLinecap="square"
             strokeLinejoin="miter"
           />
@@ -210,9 +204,9 @@ export const StationMap: React.FC<StationMapProps> = ({
           <path
             d="M 180,432 L 240,252"
             fill="none"
-            stroke={telemetry.fuelLifeSupport.fuelLineTemp < -15 ? '#ef4444' : '#f59e0b'}
-            strokeWidth="2"
-            strokeOpacity="0.35"
+            stroke="#a3a3a3"
+            strokeWidth="1.5"
+            strokeOpacity="0.3"
             strokeDasharray="4 4"
           />
 
@@ -220,9 +214,9 @@ export const StationMap: React.FC<StationMapProps> = ({
           <path
             d="M 440,492 L 480,132"
             fill="none"
-            stroke="#38bdf8"
-            strokeWidth="2"
-            strokeOpacity="0.25"
+            stroke="#ffffff"
+            strokeWidth="1.5"
+            strokeOpacity="0.2"
             strokeDasharray="6 3"
           />
 
@@ -230,18 +224,18 @@ export const StationMap: React.FC<StationMapProps> = ({
           <path
             d="M 520,276 L 880,108"
             fill="none"
-            stroke="#10b981"
-            strokeWidth="2"
+            stroke="#737373"
+            strokeWidth="1.5"
             strokeOpacity="0.2"
             strokeDasharray="4 4"
           />
 
           {/* Helipad representation (Sharp technical square) */}
           <g transform="translate(120, 100)">
-            <rect x="-40" y="-40" width="80" height="80" fill="none" stroke="rgba(245, 158, 11, 0.3)" strokeWidth="1.5" strokeDasharray="4 4" />
-            <rect x="-28" y="-28" width="56" height="56" fill="rgba(15, 23, 42, 0.6)" stroke="rgba(245, 158, 11, 0.5)" strokeWidth="1" />
-            <text x="0" y="8" textAnchor="middle" fill="#f59e0b" fontSize="20" fontWeight="bold" fontFamily="monospace">H</text>
-            <text x="0" y="-32" textAnchor="middle" fill="#94a3b8" fontSize="8.5" fontFamily="monospace">HELI-PAD LZ-1</text>
+            <rect x="-40" y="-40" width="80" height="80" fill="none" stroke="rgba(255, 255, 255, 0.2)" strokeWidth="1" strokeDasharray="4 4" />
+            <rect x="-28" y="-28" width="56" height="56" fill="rgba(0, 0, 0, 0.8)" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="1" />
+            <text x="0" y="8" textAnchor="middle" fill="#ffffff" fontSize="20" fontWeight="bold" fontFamily="monospace">H</text>
+            <text x="0" y="-32" textAnchor="middle" fill="#a3a3a3" fontSize="8.5" fontFamily="monospace">HELI-PAD LZ-1</text>
           </g>
 
           {/* Render Modules as Interactive SVG Groups with SHARP CORNERS & FOCUS DIMMING */}
@@ -285,10 +279,9 @@ export const StationMap: React.FC<StationMapProps> = ({
                     width={width + 12}
                     height={height + 12}
                     fill="none"
-                    stroke="#38bdf8"
+                    stroke="#ffffff"
                     strokeWidth="2"
                     strokeDasharray="4 2"
-                    filter="url(#nodeGlow)"
                   />
                 )}
 
@@ -316,7 +309,7 @@ export const StationMap: React.FC<StationMapProps> = ({
                 <text
                   x={-(width / 2) + 8}
                   y={-(height / 2) + 20}
-                  fill="#cbd5e1"
+                  fill="#a3a3a3"
                   fontSize="9"
                   fontFamily="monospace"
                   fontWeight="bold"
@@ -339,7 +332,7 @@ export const StationMap: React.FC<StationMapProps> = ({
                 <text
                   x={-(width / 2) + 8}
                   y={-(height / 2) + 49}
-                  fill="#38bdf8"
+                  fill="#d4d4d4"
                   fontSize="9"
                   fontFamily="monospace"
                   fontWeight="bold"
@@ -354,14 +347,6 @@ export const StationMap: React.FC<StationMapProps> = ({
                   width="7"
                   height="7"
                   fill={colors.stroke}
-                  className={module.status === 'critical' ? 'animate-ping' : ''}
-                />
-                <rect
-                  x={(width / 2) - 14}
-                  y={-(height / 2) + 12}
-                  width="7"
-                  height="7"
-                  fill={colors.stroke}
                 />
               </g>
             );
@@ -370,10 +355,10 @@ export const StationMap: React.FC<StationMapProps> = ({
 
         {/* Hovered Module Deep Diagnostics Floating Inspector (Sharp Technical Card) */}
         {hoveredModule && (
-          <div className="absolute bottom-3 left-3 right-3 sm:right-auto z-20 glass-panel bg-slate-900/98 p-3.5 border border-cyan-500/50 shadow-2xl max-w-sm pointer-events-none animate-in fade-in">
+          <div className="absolute bottom-3 left-3 right-3 sm:right-auto z-20 glass-panel bg-black p-3.5 border-2 border-white shadow-2xl max-w-sm pointer-events-none animate-in fade-in">
             <div className="flex items-center justify-between gap-2 mb-1.5">
               <div className="flex items-center gap-1.5">
-                <span className="p-1 bg-cyan-950 text-cyan-300">
+                <span className="p-1 bg-neutral-900 border border-neutral-700 text-white">
                   {getCategoryIcon(hoveredModule.category)}
                 </span>
                 <span className="text-xs font-bold text-white">{hoveredModule.name}</span>
@@ -383,24 +368,24 @@ export const StationMap: React.FC<StationMapProps> = ({
               </span>
             </div>
 
-            <p className="text-[11px] text-slate-300 mb-2 leading-relaxed">{hoveredModule.description}</p>
+            <p className="text-[11px] text-neutral-300 mb-2 leading-relaxed">{hoveredModule.description}</p>
 
-            <div className="grid grid-cols-3 gap-2 text-[10px] font-mono bg-slate-950 p-2 border border-slate-800">
+            <div className="grid grid-cols-3 gap-2 text-[10px] font-mono bg-neutral-950 p-2 border border-neutral-800">
               <div>
-                <span className="text-slate-400 block">HEALTH</span>
-                <span className="text-emerald-400 font-bold text-xs">{hoveredModule.health}%</span>
+                <span className="text-neutral-400 block">HEALTH</span>
+                <span className="text-white font-bold text-xs">{hoveredModule.health}%</span>
               </div>
               <div>
-                <span className="text-slate-400 block">TEMP</span>
-                <span className="text-cyan-300 font-bold text-xs">{hoveredModule.temperature}°C</span>
+                <span className="text-neutral-400 block">TEMP</span>
+                <span className="text-white font-bold text-xs">{hoveredModule.temperature}°C</span>
               </div>
               <div>
-                <span className="text-slate-400 block">LOAD</span>
-                <span className="text-amber-300 font-bold text-xs">{hoveredModule.powerDrawKw} kW</span>
+                <span className="text-neutral-400 block">LOAD</span>
+                <span className="text-white font-bold text-xs">{hoveredModule.powerDrawKw} kW</span>
               </div>
             </div>
 
-            <div className="text-[9.5px] text-cyan-400 font-mono mt-1.5 flex items-center gap-1 font-semibold">
+            <div className="text-[9.5px] text-white font-mono mt-1.5 flex items-center gap-1 font-semibold">
               <Crosshair className="w-3 h-3" />
               <span>CLICK TO ENGAGE REMOTE ACTUATOR OVERRIDES</span>
             </div>
@@ -409,12 +394,12 @@ export const StationMap: React.FC<StationMapProps> = ({
       </div>
 
       {/* Footer bar */}
-      <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+      <div className="mt-2.5 flex items-center justify-between text-[11px] text-neutral-400 font-mono">
         <div className="flex items-center gap-2">
-          <Info className="w-3.5 h-3.5 text-cyan-400" />
+          <Info className="w-3.5 h-3.5 text-neutral-300" />
           <span>Polar Telemetry Mesh: Reduced line noise • Active node focus enabled</span>
         </div>
-        <div className="flex items-center gap-2 text-slate-300">
+        <div className="flex items-center gap-2 text-neutral-300">
           <span>Active Nodes: {filteredModules.length}</span>
         </div>
       </div>
