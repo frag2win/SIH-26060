@@ -26,6 +26,7 @@ import { LogisticsView } from '@/components/views/LogisticsView';
 import { playAlarmKlaxon, playWarningSound, playSuccessChime, playTacticalBlip } from '@/utils/audioAlerts';
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const [currentStation, setCurrentStation] = useState<StationId>('bharati');
   const [activeDomain, setActiveDomain] = useState<CommandDomain>('overview');
   const [telemetry, setTelemetry] = useState<StationTelemetry>(INITIAL_BHARATI_TELEMETRY);
@@ -49,6 +50,24 @@ export default function Home() {
 
   // Track previous status to play audio cues on transitions
   const prevStatusRef = useRef<'nominal' | 'warning' | 'critical' | 'offline'>('nominal');
+
+  useEffect(() => {
+    setMounted(true);
+    const savedTheme = localStorage.getItem('moes_theme');
+    if (savedTheme) {
+      setIsDarkTheme(savedTheme === 'dark');
+    }
+  }, []);
+
+  const handleToggleTheme = () => {
+    setIsDarkTheme((prev) => {
+      const next = !prev;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('moes_theme', next ? 'dark' : 'light');
+      }
+      return next;
+    });
+  };
 
   // Fetch telemetry tick from serverless API
   const fetchTelemetry = useCallback(async (stationId: StationId, scenario?: ScenarioPreset) => {
@@ -232,7 +251,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col ${isDarkTheme ? 'bg-slate-950 text-slate-100' : 'light-theme bg-slate-50 text-slate-900'}`}>
+    <div className={`min-h-screen flex flex-col ${isDarkTheme ? 'bg-[#020610] text-slate-100' : 'light-theme bg-slate-100 text-slate-900'}`}>
       {/* 1. Header with branding, station selector, domain tabs, audio & clocks */}
       <Header
         currentStation={currentStation}
@@ -244,16 +263,16 @@ export default function Home() {
         streamSpeed={streamSpeed}
         onSetStreamSpeed={setStreamSpeed}
         isDarkTheme={isDarkTheme}
-        onToggleTheme={() => setIsDarkTheme(!isDarkTheme)}
+        onToggleTheme={handleToggleTheme}
         onOpenPitchTour={() => setIsPitchTourOpen(true)}
         onOpenScenarioModal={() => setIsScenarioModalOpen(true)}
         overallStatus={telemetry.overallStatus}
         healthScore={telemetry.healthScore}
       />
 
-      {/* Main Command Dashboard */}
+      {/* Main Command Dashboard with Sharp Technical Panels */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-4 space-y-4">
-        {/* Dynamic Vitals & Crisis Alert Banner (Persistent across domains) */}
+        {/* Dynamic Vitals & Crisis Alert Banner */}
         <StationOverview
           telemetry={telemetry}
           onAutoMitigate={handleAutoMitigate}
@@ -262,7 +281,7 @@ export default function Home() {
 
         {/* DOMAIN 1: EXECUTIVE NOC OVERVIEW (Master View) */}
         {activeDomain === 'overview' && (
-          <div className="space-y-4 animate-in fade-in duration-300">
+          <div className="space-y-4 animate-in fade-in duration-200">
             {/* Interactive 2D Digital Twin Map */}
             <div className="w-full">
               <StationMap
@@ -303,7 +322,7 @@ export default function Home() {
 
         {/* DOMAIN 2: ARCHITECTURAL DIGITAL TWIN SCHEMATIC & SUBMODULES */}
         {activeDomain === 'twin' && (
-          <div className="space-y-4 animate-in fade-in duration-300">
+          <div className="space-y-4 animate-in fade-in duration-200">
             <div className="w-full">
               <StationMap
                 telemetry={telemetry}
@@ -312,10 +331,14 @@ export default function Home() {
               />
             </div>
 
-            {/* Modules Quick-Inspection Matrix */}
-            <div className="glass-panel rounded-2xl p-5 border border-cyan-500/20">
-              <h3 className="text-sm font-bold text-white mb-1">Station Modules Roster & Live Telemetry Sensors</h3>
-              <p className="text-xs text-slate-400 mb-4">Click any module card or map node to trigger remote actuator overrides.</p>
+            {/* Modules Quick-Inspection Matrix with Sharp Boxes */}
+            <div className="glass-panel p-5 border border-cyan-500/25">
+              <h3 className="text-sm font-bold text-white dark:text-white light:text-slate-900 mb-1">
+                Station Modules Roster & Live Telemetry Sensors
+              </h3>
+              <p className="text-xs text-slate-300 dark:text-slate-300 light:text-slate-600 mb-4">
+                Click any module card or map node to trigger remote actuator overrides.
+              </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {telemetry.modules.map((mod) => (
@@ -325,23 +348,23 @@ export default function Home() {
                       playTacticalBlip(850, 40);
                       setSelectedModule(mod);
                     }}
-                    className={`p-3.5 rounded-xl border cursor-pointer transition-all hover:scale-102 ${
+                    className={`p-3.5 border cursor-pointer transition-all hover:scale-102 ${
                       mod.status === 'critical'
-                        ? 'bg-rose-950/80 border-rose-500 text-rose-200'
+                        ? 'bg-red-950/80 border-red-500 text-red-200'
                         : mod.status === 'warning'
                         ? 'bg-amber-950/80 border-amber-500 text-amber-200'
-                        : 'bg-slate-950/70 border-slate-800 hover:border-cyan-500/50 text-slate-300'
+                        : 'bg-slate-950/70 dark:bg-slate-950/70 light:bg-slate-50 border-slate-800 light:border-slate-300 hover:border-cyan-400 text-slate-200 dark:text-slate-200 light:text-slate-800'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-cyan-400 font-bold uppercase">{mod.id}</span>
-                      <span className="text-[9px] font-mono px-1.5 py-0.2 rounded font-bold uppercase bg-slate-900 border border-slate-800">
+                      <span className="font-mono text-[10px] text-cyan-400 dark:text-cyan-400 light:text-cyan-700 font-black uppercase">{mod.id}</span>
+                      <span className="text-[9px] font-mono px-1.5 py-0.2 font-black uppercase bg-slate-900 dark:bg-slate-900 light:bg-slate-200 border border-slate-800 light:border-slate-300">
                         {mod.status}
                       </span>
                     </div>
-                    <div className="font-bold text-white text-xs mb-1.5">{mod.name}</div>
-                    <div className="text-[11px] font-mono flex items-center justify-between text-slate-400">
-                      <span>Health: <strong className="text-emerald-400">{mod.health}%</strong></span>
+                    <div className="font-bold text-white dark:text-white light:text-slate-900 text-xs mb-1.5">{mod.name}</div>
+                    <div className="text-[11px] font-mono flex items-center justify-between text-slate-300 dark:text-slate-300 light:text-slate-600">
+                      <span>Health: <strong className="text-emerald-400 dark:text-emerald-300 light:text-emerald-700">{mod.health}%</strong></span>
                       <span>{mod.temperature}°C</span>
                     </div>
                   </div>
@@ -353,28 +376,28 @@ export default function Home() {
 
         {/* DOMAIN 3: ENERGY & MICROGRID INTELLIGENCE */}
         {activeDomain === 'energy' && (
-          <div className="animate-in fade-in duration-300">
+          <div className="animate-in fade-in duration-200">
             <EnergyView telemetry={telemetry} onAutoMitigate={handleAutoMitigate} />
           </div>
         )}
 
         {/* DOMAIN 4: ENVIRONMENTAL & POLAR SENSORS */}
         {activeDomain === 'environment' && (
-          <div className="animate-in fade-in duration-300">
+          <div className="animate-in fade-in duration-200">
             <EnvironmentView telemetry={telemetry} />
           </div>
         )}
 
         {/* DOMAIN 5: POLAR LOGISTICS & SURVIVAL RUNWAY */}
         {activeDomain === 'logistics' && (
-          <div className="animate-in fade-in duration-300">
+          <div className="animate-in fade-in duration-200">
             <LogisticsView telemetry={telemetry} />
           </div>
         )}
 
         {/* DOMAIN 6: AI MISSION OVERSEER & COMPLIANCE AUDIT */}
         {activeDomain === 'ai_audit' && (
-          <div className="space-y-4 animate-in fade-in duration-300">
+          <div className="space-y-4 animate-in fade-in duration-200">
             <PredictiveAiFeed
               prediction={aiPrediction}
               isLoading={isAiLoading}
@@ -395,7 +418,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-900 bg-slate-950/80 py-4 px-4 sm:px-6 text-center text-xs text-slate-500 font-mono">
+      <footer className="mt-auto border-t border-slate-900 light:border-slate-300 bg-slate-950/90 light:bg-white py-4 px-4 sm:px-6 text-center text-xs text-slate-400 font-mono">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
             PRITHVI-TWIN • Ministry of Earth Sciences (MoES) & NCPOR • Government of India
@@ -403,12 +426,12 @@ export default function Home() {
           <div className="flex items-center gap-3 text-[11px]">
             <span>SIH Problem Statement PS 26060</span>
             <span>•</span>
-            <span className="text-cyan-400">Vercel Serverless Production Ready</span>
+            <span className="text-cyan-400 font-bold">Vercel Serverless Ready</span>
           </div>
         </div>
       </footer>
 
-      {/* Modals & Dialogs */}
+      {/* Modals & Dialogs (Sharp Corners) */}
       {selectedModule && (
         <ModuleDetailModal
           module={selectedModule}

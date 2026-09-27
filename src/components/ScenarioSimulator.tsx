@@ -11,7 +11,6 @@ import {
   CheckCircle2, 
   Sliders, 
   Play, 
-  AlertTriangle,
   Sparkles
 } from 'lucide-react';
 import { playAlarmKlaxon, playTacticalBlip, playSuccessChime } from '@/utils/audioAlerts';
@@ -67,8 +66,8 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
       id: 'gen1_overheat',
       title: 'Generator 1 Coolant Boiling & Cavitation',
       badge: 'CRITICAL FAILURE',
-      icon: <Zap className="w-5 h-5 text-rose-400 animate-pulse" />,
-      color: 'border-rose-500/40 hover:border-rose-400',
+      icon: <Zap className="w-5 h-5 text-red-500 animate-pulse" />,
+      color: 'border-red-500/50 hover:border-red-400',
       description: 'Primary Scania 100 kVA generator coolant spikes to 99.4°C due to heat exchanger blockage. Thermal trip in 42 mins.',
       impact: 'Coolant: 99.4°C • Vibration: 7.4 mm/s • Failure Horizon: <45 mins • Health: 52%',
       pitchNarrative: 'Demonstrates AI automated bus transfer to Cold Standby Gen 3 before station heat collapse.'
@@ -78,7 +77,7 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
       title: 'Fuel Line Freeze & Waxing Risk',
       badge: 'LIFE SUPPORT THREAT',
       icon: <Flame className="w-5 h-5 text-amber-400 animate-bounce" />,
-      color: 'border-amber-500/40 hover:border-amber-400',
+      color: 'border-amber-500/50 hover:border-amber-400',
       description: 'Trace heating breaker trips in -50°C ground cold. Aviation turbine fuel plunges below -15°C waxing threshold.',
       impact: 'Fuel Line: -19.4°C (Limit -15°C) • Wax Crystals Active • Burn Drop • Total Blackout Threat',
       pitchNarrative: 'Demonstrates remote actuator trace heat breaker reset and bypass loop recirculation.'
@@ -88,7 +87,7 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
       title: 'Geomagnetic Storm (Kp 8.6) Comms Blackout',
       badge: 'SPACE WEATHER',
       icon: <Radio className="w-5 h-5 text-purple-400 animate-pulse" />,
-      color: 'border-purple-500/40 hover:border-purple-400',
+      color: 'border-purple-500/50 hover:border-purple-400',
       description: 'Intense coronal mass ejection induces auroral electrojet scintillation, severing primary Ku/X-band transponder lock.',
       impact: 'Kp Index: 8.6 • SatCom: DOWN • Latency: 2400ms • Packet Loss: 86.4%',
       pitchNarrative: 'Proves edge-computing autonomy: station safely functions even when disconnected from MoES New Delhi.'
@@ -106,26 +105,26 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200">
       <div 
-        className="glass-panel w-full max-w-3xl rounded-2xl p-6 bg-slate-900/95 border border-cyan-500/30 shadow-2xl relative max-h-[92vh] overflow-y-auto"
+        className="glass-panel w-full max-w-3xl p-6 bg-slate-900/98 dark:bg-slate-900/98 light:bg-white border border-cyan-500/40 shadow-2xl relative max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-800">
+        <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-800 light:border-slate-300">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
+            <div className="p-2.5 bg-amber-500/15 border border-amber-500/40 text-amber-400">
               <Sliders className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800 font-bold uppercase">
+                <span className="text-[10px] font-mono px-2 py-0.5 bg-amber-950 text-amber-300 border border-amber-800 font-bold uppercase">
                   SIH Presentation Controller
                 </span>
                 <span className="text-xs text-slate-400">PS 26060 Live Testbed</span>
               </div>
-              <h3 className="text-lg font-bold text-white tracking-tight">Crisis Scenario Injector & Simulator</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="text-lg font-bold text-white dark:text-white light:text-slate-900 tracking-tight">Crisis Scenario Injector & Simulator</h3>
+              <p className="text-xs text-slate-300 dark:text-slate-300 light:text-slate-600">
                 Trigger real-world Antarctic failure scenarios to test the Digital Twin and showcase predictive AI live to judges.
               </p>
             </div>
@@ -136,34 +135,34 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
               playTacticalBlip(500, 40);
               onClose();
             }}
-            className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+            className="p-1.5 bg-slate-800 dark:bg-slate-800 light:bg-slate-200 text-slate-300 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Scenarios Grid */}
+        {/* Scenarios Grid (Sharp Boxes) */}
         <div className="space-y-3 my-5">
           {scenarios.map((sc) => {
             const isActive = activeScenario === sc.id;
             return (
               <div
                 key={sc.id}
-                className={`p-4 rounded-xl border transition-all cursor-pointer ${sc.color} ${
-                  isActive ? 'bg-slate-800/90 ring-2 ring-cyan-500' : 'bg-slate-950/70'
+                className={`p-4 border transition-all cursor-pointer ${sc.color} ${
+                  isActive ? 'bg-slate-800/90 dark:bg-slate-800/90 light:bg-slate-100 ring-2 ring-cyan-500' : 'bg-slate-950/70 dark:bg-slate-950/70 light:bg-slate-50'
                 }`}
                 onClick={() => handleSelect(sc.id)}
               >
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                    <div className="p-1.5 bg-slate-900 dark:bg-slate-900 light:bg-slate-200 border border-slate-800 light:border-slate-300">
                       {sc.icon}
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                      <h4 className="text-sm font-bold text-white dark:text-white light:text-slate-900 flex items-center gap-2">
                         <span>{sc.title}</span>
                         {isActive && (
-                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-700">
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 bg-cyan-950 text-cyan-300 border border-cyan-700">
                             CURRENTLY RUNNING
                           </span>
                         )}
@@ -171,24 +170,24 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
                     </div>
                   </div>
 
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300 font-bold uppercase">
+                  <span className="text-[10px] font-mono px-2 py-0.5 bg-slate-900 dark:bg-slate-900 light:bg-slate-200 border border-slate-700 light:border-slate-300 text-slate-200 dark:text-slate-200 light:text-slate-800 font-bold uppercase">
                     {sc.badge}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-300 mb-2">{sc.description}</p>
+                <p className="text-xs text-slate-200 dark:text-slate-200 light:text-slate-700 mb-2 leading-relaxed">{sc.description}</p>
 
                 {/* Telemetry Impact Badge */}
-                <div className="text-[11px] font-mono bg-slate-900/90 p-2 rounded-lg border border-slate-800 text-cyan-300 mb-2">
+                <div className="text-[11px] font-mono bg-slate-900/95 dark:bg-slate-900/95 light:bg-white p-2 border border-slate-800 light:border-slate-300 text-cyan-400 dark:text-cyan-300 light:text-cyan-700 mb-2 font-semibold">
                   <span className="text-slate-400 mr-1.5 font-bold">TELEMETRY IMPACT:</span>
                   {sc.impact}
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-                  <span className="text-amber-400/90">
+                  <span className="text-amber-400 dark:text-amber-300 light:text-amber-700 font-semibold">
                     💡 Pitch Tip: {sc.pitchNarrative}
                   </span>
-                  <div className="flex items-center gap-1 text-cyan-400 font-bold hover:underline">
+                  <div className="flex items-center gap-1 text-cyan-400 dark:text-cyan-400 light:text-cyan-700 font-bold uppercase hover:underline">
                     <span>Inject State</span>
                     <Play className="w-3 h-3 fill-current" />
                   </div>
@@ -199,7 +198,7 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
         </div>
 
         {/* Footer with Quick Mitigate */}
-        <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+        <div className="pt-4 border-t border-slate-800 light:border-slate-300 flex items-center justify-between">
           <span className="text-xs text-slate-400 font-mono">
             Powered by Next.js Serverless Anomaly Simulation Engine
           </span>
@@ -210,7 +209,7 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({
               onAutoMitigate();
               onClose();
             }}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all hover:scale-105"
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all hover:scale-105 uppercase tracking-wide"
           >
             <Sparkles className="w-4 h-4" />
             <span>Reset / Auto-Mitigate to Nominal</span>

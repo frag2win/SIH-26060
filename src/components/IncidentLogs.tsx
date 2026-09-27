@@ -9,7 +9,6 @@ import {
   AlertTriangle, 
   Info, 
   Search, 
-  Filter,
   CheckCheck,
   ShieldAlert
 } from 'lucide-react';
@@ -68,7 +67,7 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
   const getSeverityIcon = (sev: string) => {
     switch (sev) {
       case 'critical':
-        return <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0" />;
+        return <ShieldAlert className="w-4 h-4 text-red-500 shrink-0" />;
       case 'warning':
         return <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />;
       case 'info':
@@ -78,21 +77,21 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
   };
 
   return (
-    <div className="glass-panel rounded-2xl p-5 border border-cyan-500/20">
+    <div className="glass-panel p-5 border border-cyan-500/25">
       {/* Header & Export Actions */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800 light:border-slate-300">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-cyan-400">
+          <div className="p-2 bg-slate-900 dark:bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-cyan-400">
             <FileText className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+            <h3 className="text-sm font-bold text-white dark:text-white light:text-slate-900 flex items-center gap-2">
               <span>National Polar NOC Incident Audit Register</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
+              <span className="text-[10px] font-mono px-1.5 py-0.2 bg-slate-800 text-slate-300 uppercase">
                 MoES Compliance
               </span>
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-300 dark:text-slate-300 light:text-slate-600">
               ISO/IEC 27001 verifiable polar telemetry logging • Real-time event chronology
             </p>
           </div>
@@ -104,7 +103,7 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
               playTacticalBlip(700, 40);
               onClearAlerts();
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 text-xs font-medium transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 dark:bg-slate-900 light:bg-slate-100 hover:bg-slate-800 text-slate-200 dark:text-slate-200 light:text-slate-800 border border-slate-800 light:border-slate-300 text-xs font-semibold uppercase transition-colors"
           >
             <CheckCheck className="w-3.5 h-3.5 text-emerald-400" />
             <span>Mark All Resolved</span>
@@ -112,7 +111,7 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
 
           <button
             onClick={exportCsv}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-950 hover:bg-cyan-900 text-cyan-200 border border-cyan-800 text-xs font-semibold transition-all hover:scale-105"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-cyan-950 dark:bg-cyan-950 light:bg-cyan-100 hover:bg-cyan-900 text-cyan-200 dark:text-cyan-200 light:text-cyan-900 border border-cyan-800 light:border-cyan-300 text-xs font-bold transition-all hover:scale-105 uppercase tracking-wide"
             title="Download Incident Audit Trail in CSV format"
           >
             <Download className="w-3.5 h-3.5" />
@@ -121,9 +120,9 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
+      {/* Filter and Search Bar with Sharp Boxes */}
       <div className="flex flex-wrap items-center justify-between gap-2.5 mb-3">
-        <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-lg border border-slate-800 text-xs">
+        <div className="flex items-center gap-0.5 bg-slate-900 dark:bg-slate-900 light:bg-slate-100 p-0.5 border border-slate-800 light:border-slate-300 text-xs font-mono">
           {[
             { id: 'all', label: 'All Events' },
             { id: 'critical', label: 'Critical' },
@@ -136,10 +135,10 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
                 playTacticalBlip(750, 40);
                 setFilterSeverity(f.id);
               }}
-              className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
+              className={`px-3 py-1 text-[11px] font-bold transition-all ${
                 filterSeverity === f.id
-                  ? 'bg-cyan-600 text-white font-semibold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-cyan-600 text-white'
+                  : 'text-slate-400 dark:text-slate-400 light:text-slate-600 hover:text-white'
               }`}
             >
               {f.label}
@@ -149,13 +148,13 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
 
         {/* Search Input */}
         <div className="relative flex-1 max-w-xs">
-          <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search incident ID, module, keywords..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-950/80 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono"
+            className="w-full bg-slate-950 dark:bg-slate-950 light:bg-white border border-slate-800 light:border-slate-300 pl-8 pr-3 py-1.5 text-xs text-white dark:text-white light:text-slate-900 placeholder-slate-500 focus:outline-none focus:border-cyan-500 font-mono"
           />
         </div>
       </div>
@@ -166,31 +165,31 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
           filteredAlerts.map((alert) => (
             <div
               key={alert.id}
-              className={`p-3 rounded-xl border transition-all text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
+              className={`p-3 border transition-all text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
                 alert.resolved
-                  ? 'bg-slate-950/50 border-slate-800/80 opacity-75'
+                  ? 'bg-slate-950/60 dark:bg-slate-950/60 light:bg-slate-50 border-slate-800/80 light:border-slate-200 opacity-80'
                   : alert.severity === 'critical'
-                  ? 'bg-rose-950/60 border-rose-500/60 text-rose-200'
+                  ? 'bg-red-950/80 dark:bg-red-950/80 light:bg-red-50 border-red-500 text-red-200 light:text-red-900'
                   : alert.severity === 'warning'
-                  ? 'bg-amber-950/60 border-amber-500/60 text-amber-200'
-                  : 'bg-slate-950/70 border-cyan-900/40 text-slate-300'
+                  ? 'bg-amber-950/80 dark:bg-amber-950/80 light:bg-amber-50 border-amber-500 text-amber-200 light:text-amber-900'
+                  : 'bg-slate-950/80 dark:bg-slate-950/80 light:bg-white border-cyan-900/40 light:border-slate-300 text-slate-200 dark:text-slate-200 light:text-slate-800'
               }`}
             >
               <div className="flex items-start gap-3">
                 <div className="mt-0.5">{getSeverityIcon(alert.severity)}</div>
                 <div>
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="font-mono text-[10px] text-cyan-400 font-bold">
+                    <span className="font-mono text-[10px] text-cyan-400 dark:text-cyan-400 light:text-cyan-700 font-black">
                       [{alert.id}]
                     </span>
-                    <span className="font-bold text-white">{alert.title}</span>
-                    <span className="text-[10px] font-mono text-slate-400">
+                    <span className="font-bold text-white dark:text-white light:text-slate-900">{alert.title}</span>
+                    <span className="text-[10px] font-mono text-slate-400 dark:text-slate-400 light:text-slate-500">
                       • {alert.sourceModule}
                     </span>
                   </div>
-                  <p className="text-slate-300 leading-relaxed text-[11.5px]">{alert.message}</p>
+                  <p className="text-slate-200 dark:text-slate-200 light:text-slate-700 leading-relaxed text-[11.5px]">{alert.message}</p>
                   {alert.mitigationProtocol && (
-                    <div className="mt-1 text-[10px] font-mono text-amber-300/90 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/40 inline-block">
+                    <div className="mt-1 text-[10px] font-mono text-amber-300 dark:text-amber-300 light:text-amber-800 bg-amber-950/50 dark:bg-amber-950/50 light:bg-amber-100 px-2 py-0.5 border border-amber-800/50 light:border-amber-300 inline-block font-semibold">
                       SOP: {alert.mitigationProtocol}
                     </div>
                   )}
@@ -199,12 +198,12 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
 
               {/* Status & Resolve action */}
               <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
-                <span className="text-[10px] font-mono text-slate-500">
+                <span className="text-[10px] font-mono text-slate-400">
                   {new Date(alert.timestamp).toTimeString().slice(0, 8)}
                 </span>
 
                 {alert.resolved ? (
-                  <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                  <span className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 bg-emerald-950 text-emerald-300 dark:bg-emerald-950 dark:text-emerald-300 light:bg-emerald-100 light:text-emerald-900 border border-emerald-800 font-bold uppercase">
                     <CheckCircle className="w-3 h-3" />
                     RESOLVED
                   </span>
@@ -214,7 +213,7 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
                       playSuccessChime();
                       onResolveAlert(alert.id);
                     }}
-                    className="flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors"
+                    className="flex items-center gap-1 text-[10px] font-mono px-2.5 py-1 bg-slate-800 dark:bg-slate-800 light:bg-slate-200 hover:bg-slate-700 text-slate-200 dark:text-slate-200 light:text-slate-800 border border-slate-700 light:border-slate-300 font-bold uppercase transition-colors"
                   >
                     <span>Acknowledge</span>
                   </button>
@@ -223,7 +222,7 @@ export const IncidentLogs: React.FC<IncidentLogsProps> = ({
             </div>
           ))
         ) : (
-          <div className="py-8 text-center text-slate-500 font-mono text-xs">
+          <div className="py-8 text-center text-slate-400 font-mono text-xs">
             No incident alerts found matching current filter parameters.
           </div>
         )}
