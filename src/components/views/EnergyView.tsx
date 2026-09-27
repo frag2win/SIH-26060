@@ -16,9 +16,14 @@ import { playSuccessChime } from '@/utils/audioAlerts';
 interface EnergyViewProps {
   telemetry: StationTelemetry;
   onAutoMitigate: () => void;
+  isDarkTheme?: boolean;
 }
 
-export const EnergyView: React.FC<EnergyViewProps> = ({ telemetry }) => {
+export const EnergyView: React.FC<EnergyViewProps> = ({ 
+  telemetry,
+  isDarkTheme = true
+}) => {
+  const isDark = isDarkTheme;
   const [simulationActive, setSimulationActive] = useState(false);
   const [simulationMessage, setSimulationMessage] = useState<string | null>(null);
 
@@ -177,26 +182,30 @@ export const EnergyView: React.FC<EnergyViewProps> = ({ telemetry }) => {
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-sm font-bold text-white dark:text-white light:text-black">24-Hour Station Power Demand Profile</h3>
-                <p className="text-[11px] text-neutral-400 dark:text-neutral-400 light:text-neutral-600">Historical load trend with dynamic peak spikes</p>
+                <h3 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-black'}`}>24-Hour Station Power Demand Profile</h3>
+                <p className={`text-[11px] ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>Historical load trend with dynamic peak spikes</p>
               </div>
-              <span className="text-[10px] font-mono text-white bg-neutral-900 px-2 py-0.5 border border-neutral-700 font-bold">
+              <span className={`text-[10px] font-mono px-2 py-0.5 border font-bold ${
+                isDark ? 'text-white bg-neutral-900 border-neutral-700' : 'text-black bg-neutral-100 border-neutral-300'
+              }`}>
                 Peak: 124 kW
               </span>
             </div>
 
             {/* SVG Area Chart */}
-            <div className="w-full h-44 bg-neutral-950/80 dark:bg-neutral-950/80 light:bg-neutral-50 border border-neutral-800 light:border-neutral-300 p-3 relative overflow-hidden">
+            <div className={`w-full h-44 border p-3 relative overflow-hidden ${
+              isDark ? 'bg-neutral-950/80 border-neutral-800' : 'bg-neutral-50 border-neutral-200'
+            }`}>
               <svg className="w-full h-full" viewBox="0 0 500 120" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="energyGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
+                    <stop offset="0%" stopColor={isDark ? "#ffffff" : "#000000"} stopOpacity={isDark ? "0.25" : "0.15"} />
+                    <stop offset="100%" stopColor={isDark ? "#ffffff" : "#000000"} stopOpacity="0.0" />
                   </linearGradient>
                 </defs>
-                <line x1="0" y1="30" x2="500" y2="30" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
-                <line x1="0" y1="60" x2="500" y2="60" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
-                <line x1="0" y1="90" x2="500" y2="90" stroke="rgba(255,255,255,0.08)" strokeDasharray="3 3" />
+                <line x1="0" y1="30" x2="500" y2="30" stroke={isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"} strokeDasharray="3 3" />
+                <line x1="0" y1="60" x2="500" y2="60" stroke={isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"} strokeDasharray="3 3" />
+                <line x1="0" y1="90" x2="500" y2="90" stroke={isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"} strokeDasharray="3 3" />
 
                 <path
                   d="M 0 85 Q 50 78, 100 82 T 200 65 T 300 50 T 400 68 T 500 55 L 500 120 L 0 120 Z"
@@ -205,7 +214,7 @@ export const EnergyView: React.FC<EnergyViewProps> = ({ telemetry }) => {
                 <path
                   d="M 0 85 Q 50 78, 100 82 T 200 65 T 300 50 T 400 68 T 500 55"
                   fill="none"
-                  stroke="#ffffff"
+                  stroke={isDark ? "#ffffff" : "#000000"}
                   strokeWidth="2"
                 />
                 <rect x="496" y="51" width="7" height="7" fill="#f97316" />
@@ -222,27 +231,33 @@ export const EnergyView: React.FC<EnergyViewProps> = ({ telemetry }) => {
           </div>
 
           {/* 6-Hour Energy Intelligence Forecast Box */}
-          <div className="p-3.5 bg-neutral-950/90 dark:bg-neutral-950/90 light:bg-neutral-50 border border-neutral-700 light:border-neutral-300 space-y-2">
+          <div className={`p-3.5 border space-y-2 ${
+            isDark ? 'bg-neutral-950/90 border-neutral-700' : 'bg-neutral-50 border-neutral-200'
+          }`}>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-white dark:text-white light:text-black font-mono flex items-center gap-1.5">
+              <span className={`text-xs font-bold font-mono flex items-center gap-1.5 ${isDark ? 'text-white' : 'text-black'}`}>
                 <Sparkles className="w-3.5 h-3.5 text-[#f97316]" />
                 <span>6-Hour Thermal & Power Demand Model</span>
               </span>
               <span className="text-[10px] font-mono text-neutral-400 font-bold uppercase">Predictive</span>
             </div>
 
-            <p className="text-xs text-neutral-300 dark:text-neutral-300 light:text-neutral-700 leading-relaxed">
+            <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
               Katabatic temperature drop predicted at 02:00 UTC (-6°C delta). Station heating demand is forecasted to rise by <strong>+18%</strong>. Battery reserves remain sufficient if non-vital science arrays are scheduled during the cold spike.
             </p>
 
-            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-neutral-800 light:border-neutral-300">
-              <span className="text-[10.5px] font-mono text-neutral-300 dark:text-neutral-300 light:text-neutral-700">
+            <div className={`flex flex-wrap items-center justify-between gap-2 pt-2 border-t ${
+              isDark ? 'border-neutral-800' : 'border-neutral-200'
+            }`}>
+              <span className={`text-[10.5px] font-mono ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
                 Recommended SOP: <strong className="text-[#f97316]">PEAK-SHED-BRAVO</strong>
               </span>
 
               <button
                 onClick={handleSimulatePlan}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-black hover:bg-neutral-200 border border-white font-bold text-xs uppercase transition-all hover:scale-105"
+                className={`flex items-center gap-1.5 px-3 py-1.5 border font-bold text-xs uppercase transition-all hover:scale-105 ${
+                  isDark ? 'bg-white text-black hover:bg-neutral-200 border-white' : 'bg-black text-white hover:bg-neutral-800 border-black'
+                }`}
               >
                 <Sliders className="w-3.5 h-3.5 text-[#f97316]" />
                 <span>Simulate Automated Plan</span>
@@ -250,7 +265,9 @@ export const EnergyView: React.FC<EnergyViewProps> = ({ telemetry }) => {
             </div>
 
             {simulationMessage && (
-              <div className="p-2 bg-neutral-900 dark:bg-neutral-900 light:bg-neutral-100 border border-white text-white dark:text-white light:text-black text-xs font-mono animate-in fade-in">
+              <div className={`p-2 border text-xs font-mono animate-in fade-in ${
+                isDark ? 'bg-neutral-900 border-white text-white' : 'bg-neutral-100 border-black text-black'
+              }`}>
                 {simulationMessage}
               </div>
             )}

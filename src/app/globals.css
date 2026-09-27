@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant light (&:where(.light-theme, .light-theme *));
+
 @layer base {
   :root {
     --bg-primary: #000000;
@@ -68,62 +70,26 @@ body {
   border-color: #000000 !important;
 }
 
-/* Invert neutral text and backgrounds for light mode */
-.light-theme .text-white {
-  color: #000000 !important;
+/* Dynamic theme SVGs */
+.theme-curve {
+  stroke: #ffffff;
 }
-.light-theme .text-neutral-100 {
-  color: #000000 !important;
-}
-.light-theme .text-neutral-200 {
-  color: #171717 !important;
-}
-.light-theme .text-neutral-300 {
-  color: #262626 !important;
-}
-.light-theme .text-neutral-400 {
-  color: #525252 !important;
+.light-theme .theme-curve {
+  stroke: #000000;
 }
 
-.light-theme .bg-black {
-  background-color: #ffffff !important;
-  color: #000000 !important;
+.theme-text-fill {
+  fill: #ffffff;
+}
+.light-theme .theme-text-fill {
+  fill: #000000;
 }
 
-.light-theme .bg-neutral-950,
-.light-theme .bg-neutral-950\/70,
-.light-theme .bg-neutral-950\/80,
-.light-theme .bg-neutral-950\/90 {
-  background-color: #fafafa !important;
-  color: #000000 !important;
+.theme-subtext-fill {
+  fill: #a3a3a3;
 }
-
-.light-theme .bg-neutral-900,
-.light-theme .bg-neutral-900\/70,
-.light-theme .bg-neutral-900\/80,
-.light-theme .bg-neutral-900\/90 {
-  background-color: #f4f4f5 !important;
-  color: #000000 !important;
-}
-
-.light-theme .border-neutral-800,
-.light-theme .border-neutral-700 {
-  border-color: #e5e5e5 !important;
-}
-
-.light-theme .border-neutral-900 {
-  border-color: #d4d4d4 !important;
-}
-
-/* Specific button inverts for high contrast */
-.light-theme .invert-on-light {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
-}
-
-.light-theme .invert-on-light * {
-  color: #ffffff !important;
+.light-theme .theme-subtext-fill {
+  fill: #525252;
 }
 
 /* Neutral Monochrome Grid Background */

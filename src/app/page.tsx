@@ -277,6 +277,7 @@ export default function Home() {
           telemetry={telemetry}
           onAutoMitigate={handleAutoMitigate}
           isMitigating={isMitigating}
+          isDarkTheme={isDarkTheme}
         />
 
         {/* DOMAIN 1: EXECUTIVE NOC OVERVIEW (Master View) */}
@@ -288,12 +289,13 @@ export default function Home() {
                 telemetry={telemetry}
                 onSelectModule={setSelectedModule}
                 selectedModuleId={selectedModule?.id}
+                isDarkTheme={isDarkTheme}
               />
             </div>
 
             {/* Telemetry Stream Floating Modular Grid */}
             <div className="w-full">
-              <TelemetryGrid telemetry={telemetry} />
+              <TelemetryGrid telemetry={telemetry} isDarkTheme={isDarkTheme} />
             </div>
 
             {/* Gemini AI Autonomous Mission Overseer */}
@@ -305,6 +307,7 @@ export default function Home() {
                 onAutoMitigate={handleAutoMitigate}
                 isMitigating={isMitigating}
                 telemetry={telemetry}
+                isDarkTheme={isDarkTheme}
               />
             </div>
 
@@ -315,6 +318,7 @@ export default function Home() {
                 currentStation={currentStation}
                 onClearAlerts={handleClearAlerts}
                 onResolveAlert={handleResolveAlert}
+                isDarkTheme={isDarkTheme}
               />
             </div>
           </div>
@@ -328,15 +332,16 @@ export default function Home() {
                 telemetry={telemetry}
                 onSelectModule={setSelectedModule}
                 selectedModuleId={selectedModule?.id}
+                isDarkTheme={isDarkTheme}
               />
             </div>
 
             {/* Modules Quick-Inspection Matrix with Sharp Boxes */}
             <div className="glass-panel p-5 border border-neutral-800">
-              <h3 className="text-sm font-bold text-white dark:text-white light:text-black mb-1 font-mono">
+              <h3 className={`text-sm font-bold mb-1 font-mono ${isDarkTheme ? 'text-white' : 'text-black'}`}>
                 Station Modules Roster & Live Telemetry Sensors
               </h3>
-              <p className="text-xs text-neutral-400 dark:text-neutral-400 light:text-neutral-600 mb-4 font-mono">
+              <p className={`text-xs mb-4 font-mono ${isDarkTheme ? 'text-neutral-400' : 'text-neutral-500'}`}>
                 Click any module card or map node to trigger remote actuator overrides.
               </p>
               
@@ -350,18 +355,24 @@ export default function Home() {
                     }}
                     className={`p-3.5 border cursor-pointer transition-all ${
                       mod.status === 'critical'
-                        ? 'bg-white text-black font-black border-2 border-white'
+                        ? isDarkTheme 
+                          ? 'bg-white text-black font-black border-2 border-white' 
+                          : 'bg-black text-white font-black border-2 border-black'
                         : mod.status === 'warning'
-                        ? 'bg-neutral-900 border border-neutral-400 text-white'
-                        : 'bg-neutral-950 dark:bg-neutral-950 light:bg-neutral-50 border border-neutral-800 light:border-neutral-300 hover:border-white text-neutral-200 dark:text-neutral-200 light:text-neutral-800'
+                        ? isDarkTheme 
+                          ? 'bg-neutral-900 border border-neutral-400 text-white' 
+                          : 'bg-neutral-100 border border-neutral-400 text-black'
+                        : isDarkTheme 
+                        ? 'bg-neutral-950 border border-neutral-800 hover:border-white text-neutral-200' 
+                        : 'bg-neutral-50 border border-neutral-200 hover:border-black text-neutral-800'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-mono text-[10px] uppercase font-bold text-neutral-400">{mod.id}</span>
-                      <span className={`text-[9px] font-mono px-1.5 py-0.2 font-black uppercase border ${
+                      <span className={`text-[9px] font-mono px-1.5 py-0.5 font-black uppercase border ${
                         mod.status === 'critical'
-                          ? 'bg-black text-white border-black'
-                          : 'bg-neutral-900 text-neutral-300 border-neutral-700'
+                          ? isDarkTheme ? 'bg-black text-white border-black' : 'bg-white text-black border-white'
+                          : isDarkTheme ? 'bg-neutral-900 text-neutral-300 border-neutral-700' : 'bg-neutral-100 text-neutral-700 border-neutral-300'
                       }`}>
                         {mod.status}
                       </span>
@@ -381,21 +392,21 @@ export default function Home() {
         {/* DOMAIN 3: ENERGY & MICROGRID INTELLIGENCE */}
         {activeDomain === 'energy' && (
           <div className="animate-in fade-in duration-200">
-            <EnergyView telemetry={telemetry} onAutoMitigate={handleAutoMitigate} />
+            <EnergyView telemetry={telemetry} onAutoMitigate={handleAutoMitigate} isDarkTheme={isDarkTheme} />
           </div>
         )}
 
         {/* DOMAIN 4: ENVIRONMENTAL & POLAR SENSORS */}
         {activeDomain === 'environment' && (
           <div className="animate-in fade-in duration-200">
-            <EnvironmentView telemetry={telemetry} />
+            <EnvironmentView telemetry={telemetry} isDarkTheme={isDarkTheme} />
           </div>
         )}
 
         {/* DOMAIN 5: POLAR LOGISTICS & SURVIVAL RUNWAY */}
         {activeDomain === 'logistics' && (
           <div className="animate-in fade-in duration-200">
-            <LogisticsView telemetry={telemetry} />
+            <LogisticsView telemetry={telemetry} isDarkTheme={isDarkTheme} />
           </div>
         )}
 
@@ -409,6 +420,7 @@ export default function Home() {
               onAutoMitigate={handleAutoMitigate}
               isMitigating={isMitigating}
               telemetry={telemetry}
+              isDarkTheme={isDarkTheme}
             />
 
             <IncidentLogs
@@ -416,6 +428,7 @@ export default function Home() {
               currentStation={currentStation}
               onClearAlerts={handleClearAlerts}
               onResolveAlert={handleResolveAlert}
+              isDarkTheme={isDarkTheme}
             />
           </div>
         )}
