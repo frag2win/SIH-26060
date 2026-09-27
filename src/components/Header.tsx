@@ -254,10 +254,20 @@ export const Header: React.FC<HeaderProps> = ({
               playTacticalBlip(650, 40);
               onToggleTheme();
             }}
-            className="p-1.5 bg-slate-900 dark:bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-slate-200 dark:text-slate-200 light:text-slate-800 hover:text-white transition-all"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-900 dark:bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-xs font-mono font-bold transition-all hover:scale-105"
             title={isDarkTheme ? 'Switch to Crisp White Ops Theme' : 'Switch to Tactical Black NOC Theme'}
           >
-            {isDarkTheme ? <Sun className="w-3.5 h-3.5 text-amber-300" /> : <Moon className="w-3.5 h-3.5 text-blue-600" />}
+            {isDarkTheme ? (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-300" />
+                <span className="hidden sm:inline text-[10px] text-amber-300 font-bold">BLACK NOC</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-3.5 h-3.5 text-blue-600" />
+                <span className="hidden sm:inline text-[10px] text-blue-800 font-bold">WHITE OPS</span>
+              </>
+            )}
           </button>
 
           {/* SIH Pitch Guide Modal */}
